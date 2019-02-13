@@ -1,0 +1,22 @@
+package doctoroffice;
+
+public class Calendar 
+{
+    private String months[] = 
+        { "January", "February", "March", "April", "May", "June", "July", 
+          "August", "September", "October", "November", "December" };
+    //private int monthSelected[] = { 1,2,3,4,5,6,7,8,9,10,11,12 };
+    private String days[];
+    private int year;
+    
+    public Calendar(String month[], String day[], int year)
+    {
+        this.months = month;
+        this.days = day;
+        this.year = year;
+    }
+    
+    public void setMonth(String month[]) { this.months = month; }
+    public void setDay(String day[]) { this.days = day; }
+    public void setYear(int year) { this.year = year; }
+}
