@@ -1,0 +1,48 @@
+package doctoroffice;
+
+import connector.DataBaseConnector;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
+import java.sql.SQLException;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.ListView;
+
+/**
+ *
+ * @author Charles Hulett
+ */
+public class DoctorListFilter 
+{
+    final private ListView<String> doctorSelectView = new ListView();
+    private DataBaseConnector dbConnect = new DataBaseConnector();
+    private ComboBox specialitiesList = new ComboBox();
+    
+    public void filterDocList()
+    {
+        doctorSelectView.getItems().clear();
+            try {
+                String temp = "";
+                String queryString = "select * from Doctor";
+                ResultSet resultSet = dbConnect.getStmt().executeQuery(queryString);
+
+                ResultSetMetaData rsMetaData = resultSet.getMetaData();
+
+                while (resultSet.next()) 
+                {
+                    for (int i = 1; i <= rsMetaData.getColumnCount(); i++) 
+                    {
+                        if (resultSet.getObject(4).equals(specialitiesList.getValue().toString())) 
+                        {
+                            if (rsMetaData.getColumnName(i).equals("ID") || rsMetaData.getColumnName(i).equals("fName") || rsMetaData.getColumnName(i).equals("lName") || rsMetaData.getColumnName(i).equals("Speciality")) 
+                            {
+                                temp += resultSet.getObject(i) + "     ";
+                            }
+                        }
+                    }
+                doctorSelectView.getItems().add(temp);
+                temp = "";
+            }
+        } 
+        catch (SQLException ex) {}
+    }
+}
