@@ -1,0 +1,48 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package doctoroffice;
+
+import connector.DataBaseConnector;
+import java.sql.SQLException;
+import javafx.scene.control.CheckBox;
+import javafx.scene.control.ComboBox;
+
+/**
+ *
+ * @author Charles Hulett
+ */
+public class SaveDoctorAction 
+{
+    private DataBaseConnector dbConnect = new DataBaseConnector();
+    private ComboBox specialitiesList = new ComboBox();
+    private CheckBox cbMonday = new CheckBox();
+    private CheckBox cbTuesday = new CheckBox();
+    private CheckBox cbWednesday = new CheckBox();
+    private CheckBox cbThursday = new CheckBox();
+    private CheckBox cbFriday = new CheckBox();
+    private int id;
+    
+    public void saveDocAction()
+    {
+        try 
+        {
+            String queryString2 = "UPDATE Doctor SET "
+                    + "Speciality='" + specialitiesList.getValue() + "', "
+                    + "Monday='" + cbMonday.isSelected() + "', "
+                    + "Tuesday='" + cbTuesday.isSelected() + "', "
+                    + "Wednesday='" + cbWednesday.isSelected() + "', "
+                    + "Thursday='" + cbThursday.isSelected() + "', "
+                    + "Friday='" + cbFriday.isSelected() + "' "
+                    + "WHERE (ID='" + id + "')";
+            
+            dbConnect.getStmt().executeUpdate(queryString2);
+        } 
+        catch (SQLException ex) {}
+        
+        System.out.println("done");
+
+    }
+}
