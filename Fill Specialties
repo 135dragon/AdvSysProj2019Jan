@@ -1,0 +1,43 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package doctoroffice;
+
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import javafx.scene.control.ComboBox;
+
+/**
+ *
+ * @author Charles Hulett
+ */
+public class FillSpecialties 
+{
+    private ComboBox specialtiesList;
+    private Statement stmt;
+    
+    public FillSpecialties(ComboBox specialtiesList, Statement stmt)
+    {
+        this.specialtiesList = specialtiesList;
+        this.stmt = stmt;
+    }
+    
+    public ComboBox getSpecialties()
+    {
+        try 
+        {
+            String queryString = "select * from Speciality";
+            ResultSet resultSet = stmt.executeQuery(queryString);
+            
+            while (resultSet.next()) 
+                specialtiesList.getItems().add(resultSet.getString("sName"));
+            
+        } 
+        catch (SQLException ex) {}
+        
+        return specialtiesList;
+    }
+}
