@@ -1,0 +1,34 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package doctoroffice;
+
+import connector.DataBaseConnector;
+import java.sql.SQLException;
+
+/**
+ *
+ * @author Charles Hulett
+ */
+public class DeleteDoctorAction 
+{
+    private DataBaseConnector dbConnect = new DataBaseConnector();
+    private DoctorCenter docCenter = new DoctorCenter();
+    private int id;
+    
+    public void deleteAction()
+    {
+    try 
+        {
+            String queryString4 = "DELETE FROM Doctor "
+                    + "WHERE (ID='" + id + "')";
+            dbConnect.getStmt().executeUpdate(queryString4);
+
+        } 
+        catch (SQLException ex) {}
+        System.out.println("done");
+        docCenter.setDocCenter();
+    }
+}
