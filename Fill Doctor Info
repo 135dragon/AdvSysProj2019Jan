@@ -1,0 +1,69 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package doctoroffice;
+
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import javafx.scene.control.CheckBox;
+
+/**
+ *
+ * @author Charles Hulett
+ */
+public class FillDoctorInfo 
+{
+    private int id;
+    private CheckBox cbMonday;
+    private CheckBox cbTuesday;
+    private CheckBox cbWednesday;
+    private CheckBox cbThursday;
+    private CheckBox cbFriday;
+    private String specialty;
+    private Statement stmt;
+    private ChooseSpecialty chooseSpecialty;
+    
+    public FillDoctorInfo(int id, CheckBox cbMonday, CheckBox cbTuesday, 
+                          CheckBox cbWednesday, CheckBox cbThursday, 
+                          CheckBox cbFriday, String specialty, 
+                          ChooseSpecialty chooseSpecialty, Statement stmt)
+            throws Exception
+    {
+        this.id = id;
+        this.cbMonday = cbMonday;
+        this.cbTuesday = cbTuesday;
+        this.cbWednesday = cbWednesday;
+        this.cbThursday = cbThursday;
+        this.cbFriday = cbFriday;
+        this.chooseSpecialty = chooseSpecialty;
+        this.stmt = stmt;
+    }
+    
+    public void fillInfo(double record)
+    {
+        int idNum = (int) Math.round(record);
+        String queryString = "select * from Doctor where (ID = '" + Integer.toString(idNum) + "')";
+        
+        try 
+        {
+            ResultSet resultSet = stmt.executeQuery(queryString);
+            
+            while (resultSet.next()) 
+            {
+                id = resultSet.getInt("ID");
+                cbMonday.setSelected(resultSet.getBoolean("Monday"));
+                cbTuesday.setSelected(resultSet.getBoolean("Tuesday"));
+                cbWednesday.setSelected(resultSet.getBoolean("Wednesday"));
+                cbThursday.setSelected(resultSet.getBoolean("Thursday"));
+                cbFriday.setSelected(resultSet.getBoolean("Friday"));
+                specialty = resultSet.getString("Speciality");
+                chooseSpecialty.chooseSpecialty(specialty);
+                System.out.println(id);
+            }
+        }
+        catch(SQLException ex){}
+    }
+}
